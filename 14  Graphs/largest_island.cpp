@@ -50,6 +50,43 @@ int largest_island(vector<vector<int> > matrix){
     return largest;
 }
 
+int dfs2(vector<vector<int>> grid, int i, int j, vector<vector<bool>> &visited){
+    if(i<0 || j<0 || i==grid.size() || j == grid[0].size() || visited[i][j] || grid[i][j]==0){
+        return 0;
+    }
+
+    visited[i][j] = true;
+
+    int dx[] = {1,-1,0,0};
+    int dy[] = {0,0,1,-1};
+
+    int largest=0;
+
+    for(int k=0;k<4;k++){
+        int nx = i + dx[k];
+        int ny = j + dy[k];
+
+        largest = max(largest, 1 + dfs2(grid, nx, ny, visited));
+
+    }
+    return largest;
+}
+int largest_island2 (vector<vector<int>> grid){
+    int n = grid.size();
+    int m = grid[0].size();
+
+    vector<vector<bool>> visited(n,vector<bool>(m, false));
+
+    int largest =0;
+
+    for(int i=0;i<n;i++){
+        for(int j =0; j<m;j++){
+            largest = max(largest,dfs2(grid, i, j, visited));
+        }
+    }
+    return largest;
+    
+}
 
 int main(){
     vector<vector<int> > grid = {
@@ -60,7 +97,7 @@ int main(){
                             {1, 0, 1, 1, 0}
                             };
     
-    cout<< largest_island(grid) <<endl;
+    cout<< largest_island2(grid) <<endl;
 
 
     return 0;

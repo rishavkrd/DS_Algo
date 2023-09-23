@@ -11,7 +11,7 @@ string find_window(string s,string p){
 	int FS[256] = {0};
 
 	for(int i=0;i<p.length();i++){
-		FP[ps[i]]++;
+		FP[p[i]]++;
 	}
 
 	//Sliding Window Algorithm
@@ -58,7 +58,50 @@ string find_window(string s,string p){
 	}
 	return s.substr(start_idx,min_so_far);
 }
+bool fit(int *arrbig, int* arrsm){
+	for(int i=0;i<256;i++){
+		if(arrbig[i]<arrsm[i]) return false;
+	}
+	return true;
+}
+string minWindow(string s, string p){
+    if(s.length()<p.length()) return "";
+	int FP[256] = {0};
+	int FS[256] = {0};
+	int start_idx=0;
+	int min_window_len = s.size();
+	int len=s.size(), count=0;
+    bool flag=false;
+	for(char c : p){
+		FP[c]++;
+	}
+	int i=0,j=0;
+	while(j<s.size()){
+		FS[s[j]]++;
+        if(FP[s[j]]>0 && FS[s[j]]<=FP[s[j]]){
+            count++;
+        }
+		while(count==p.size()){
+            flag=true;
+			len = j-i+1;
+			if(len<min_window_len){
+				min_window_len=len;
+				start_idx=i;
+			}
+			// cout<<start_idx<<','<<min_window_len;
+			FS[s[i]]--;
+            if(FS[s[i]]<FP[s[i]]){
+                count--;
+            }
+			i++;
+		}
+		j++;
 
+	}
+    if(!flag) return "";
+	return s.substr(start_idx,min_window_len);
+
+}
 
 
 int main(){

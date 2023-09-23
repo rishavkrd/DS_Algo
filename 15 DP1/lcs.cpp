@@ -1,47 +1,47 @@
 #include<iostream>
 #include<vector>
+#include<string>
+
 using namespace std;
 
-
-int lcs(string s1,string s2,int i,int j,vector<vector<int> > &dp){
-	//base case
-	if(i==s1.length() or j==s2.length()){
-		return  0;
+int lcs(string s1, string s2, int i, int j){
+	if(i>=s1.length() || j >=s2.length()){
+		return 0;
 	}
-	//check if a state is already computed
-	if(dp[i][j]!=-1){
-		return dp[i][j];
+	int res = 0;
+	if(s1[i]==s2[j]){
+		res = 1 + lcs(s1, s2, i+1, j+1);
 	}
-
-	//rec case
-	if(s1[i]==s2[i]){
-		return dp[i][j] = 1 + lcs(s1,s2,i+1,j+1,dp);
+	else{
+		res = max(lcs(s1, s2, i+1, j), lcs(s1, s2, i, j+1));
 	}
-
-	int op1 = lcs(s1,s2,i+1,j,dp);
-	int op2 = lcs(s1,s2,i,j+1,dp);
-	return dp[i][j] = max(op1,op2);
+	return res;
 }
 
-int main(){
+int lcs_dp(string s1, string s2){
+	vector<vector<int>> dp (s1.length()+1, vector<int>(s2.length()+1,0));
 
-	string s1 = "ABCD";
-	string s2 = "ABEDG";
-
-	int n1 = s1.length();
-	int n2 = s2.length();
-
-	vector<vector<int> > dp(n1+1, vector<int>(n2+1,-1)); //n1 X n2 
-
-	cout<< lcs(s1,s2,0,0,dp) <<endl;
-
-
-	for(int i=0;i<=n1;i++){
-		for(int j=0;j<=n2;j++){
-			cout<<dp[i][j]<<" ";
+	for(int i = 1; i<=s1.length(); i++){
+		for(int j = 1; j<=s2.length(); j++){
+			if(s1[i]==s2[j]) dp[i][j] = dp[i-1][j-1]+1;
+			else dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+		}
+	}
+	for(int i=0;i<s1.length();i++){
+		for(int j : dp[i]){
+			cout<<j<<" ";
 		}
 		cout<<endl;
 	}
+	return dp[s1.length()] [s2.length()];
+}
+
+int main(){
+	string s1 = "ABACD";
+	string s2 = "AABEDG";
+
+	cout<<lcs(s1, s2, 0,0)<<endl;
+	cout<<lcs_dp(s1, s2)<<endl;
 
 	return 0;
 }

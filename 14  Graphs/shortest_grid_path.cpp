@@ -1,6 +1,7 @@
 #include<iostream>
 #include<vector>
 #include<set>
+#include<climits>
 using namespace std;
 
 class Node{
@@ -21,7 +22,7 @@ public:
 // first argument is considered to go before the second in the specific strict weak ordering
 class Compare{
 public:
-	bool operator()(const Node &a,const Node &b){
+	bool operator()(const Node &a,const Node &b) const{
 		return a.dist <= b.dist;
 	}
 };
@@ -82,6 +83,13 @@ int shortest_path(vector<vector<int> > grid){
 }
 
 int main(){
-
-	return 0;
+    vector<vector<int>> v = {
+                            {31, 100, 64, 12,  18},
+                            {10,  13,  47, 157, 6},
+                            {100, 113, 174, 11, 33},
+                            {88,  124, 41,  20, 140},
+                            {99,  32,  111, 41, 20}
+                        };
+    cout<<shortest_path(v)<<" -- result" <<endl;
+    return 0;
 }

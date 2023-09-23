@@ -43,9 +43,46 @@ void maxSubArrayK(vector<int> a,int k){
 
 }
 
+void maxSubArrayK2(vector<int> arr, int k){ //Bug: does not give biggest when window expires.
+    deque<int> kings;
+    int age = 0;
+    for(int i=0;i<k;i++){
+        if(kings.empty()) {
+            kings.push_back(arr[i]);
+            age++;
+        }
+        else{
+            if(kings.front()<arr[i]){
+                kings.clear();
+                age = 0;
+            } 
+            kings.push_back(arr[i]);
+            age++;
+        }
+    }
+
+    cout<<kings.front()<< ' ';
+
+    for(int i=k; i<arr.size(); i++){
+        if(age == k){
+            kings.pop_front();
+            age--;
+        }
+        if(kings.front()<arr[i]){
+            kings.clear();
+            age = 0;
+        } 
+        kings.push_back(arr[i]);
+        age++;
+        cout<<kings.front()<<' ';
+    }
+    return;
+}
+
 int main() {
     
-    vector<int> arr{1,2,3,1,4,5,2,3,5};
+    // vector<int> arr{1,2,3,1,4,0,1,0,3,4};
+    vector<int> arr = {1,2,3,1,4,5,2,3,6};
     int k = 3;
 
     maxSubArrayK(arr,k);

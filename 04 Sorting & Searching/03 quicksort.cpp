@@ -3,32 +3,65 @@
 using namespace std;
 
 
-int partition(vector<int> &a,int s,int e){
+// int partition(vector<int> &a,int s,int e){
 
-	int pivot = a[e];
-	int i = s - 1;
+// 	int pivot = a[e];
+// 	int i = s - 1;
 
-	for(int j=s;j<e;j++){
-		if(a[j] < pivot){
+// 	for(int j=s;j<e;j++){
+// 		if(a[j] < pivot){
+// 			i++;
+// 			swap(a[i],a[j]);
+// 		}
+// 	}
+	
+// 	swap(a[i+1],a[e]);
+// 	return i + 1;
+	
+// }
+
+// void quicksort(vector<int> &a, int s,int e){
+// 	//Base Case
+// 	if(s>=e){
+// 		return;
+// 	}
+// 	//Rec Case
+// 	int p = partition(a,s,e);
+// 	quicksort(a,s,p-1);
+// 	quicksort(a,p+1,e);
+// }
+
+int partition(vector<int> &a, int s, int e){
+	
+	int p = a[e];
+	int i=s-1, j=s;
+
+	while(j<e){
+		if(a[j]>p){
+			j++;
+		}
+		else{
 			i++;
-			swap(a[i],a[j]);
+			int temp = a[i];
+			a[i] = a[j];
+			a[j] = temp;
+			j++;
 		}
 	}
-	
-	swap(a[i+1],a[e]);
-	return i + 1;
-	
+	int temp = a[j];
+	a[j] = a[i+1];
+	a[i+1] = temp;
+	return i+1;
+
 }
 
-void quicksort(vector<int> &a, int s,int e){
-	//Base Case
+void quicksort(vector<int> &a, int s, int e){
 	if(s>=e){
 		return;
 	}
-	//Rec Case
-	int p = partition(a,s,e);
-	quicksort(a,s,p-1);
-	quicksort(a,p+1,e);
+	int mid = partition(a, s, e);
+	quicksort(a, s, mid-1);
+	quicksort(a, mid+1, e);
 }
 
 

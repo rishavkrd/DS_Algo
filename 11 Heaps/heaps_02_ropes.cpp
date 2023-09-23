@@ -30,11 +30,30 @@ int join_ropes(int ropes[], int n) {
 
 }
 
+int join_ropes2(int * ropes, int n){
+	priority_queue<int, vector<int>, greater<int>> heap(ropes, ropes+n);
+
+	// for(int i : ropes){
+	// 	heap.push(i);
+	// }
+	int cost=0;
+	for(int i=1; i<n; i++){
+		int a = heap.top();
+		heap.pop();
+		int b = heap.top();
+		heap.pop();
+		cost+=a+b;
+		heap.push(a+b);
+	}
+	// cost+=heap.top();
+	return cost;
+}
+
 int main() {
 	int ropes[] = {4, 3, 2, 6};
 	int n = 4;
 
-	cout << join_ropes(ropes, n) << endl;
+	cout << join_ropes2(ropes, n) << endl;
 
 
 

@@ -45,6 +45,28 @@ vector<int> mergeKArrays(vector<vector<int> > arrays){
     return output;
 }
 
+vector<int> mergeKArrays2(vector<vector<int>> arrays){
+    priority_queue<vector<int>, vector<vector<int>>, greater<vector<int>>> heap;
+
+    int k = arrays.size();
+
+    for(int i=0;i<k;i++){
+        heap.push({arrays[i][0], i, 0});    //val, array_idx, element_idx
+    }
+    vector<int> res;
+    while(!heap.empty()){
+        int min = heap.top()[0];
+        int arr_idx = heap.top()[1];
+        int ele_idx = heap.top()[2];
+
+        res.push_back(min);
+        heap.pop();
+        if(ele_idx!= arrays[arr_idx].size() -1 ) heap.push({arrays[arr_idx][ele_idx+1], arr_idx, ele_idx+1});
+    }
+
+    return res;
+}
+
 int main() {
     
 
@@ -53,7 +75,7 @@ int main() {
                                 {0,11,60,90}};
 
     //various approaches 
-    vector<int> result = mergeKArrays(arr);
+    vector<int> result = mergeKArrays2(arr);
     
 
     //output

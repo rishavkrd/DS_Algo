@@ -12,7 +12,6 @@ int main(){
 
 	//find function
 	int index =  paragraph.find(word);
-
 	if(index!=-1){
 		cout <<"first occ" <<index;
 	}

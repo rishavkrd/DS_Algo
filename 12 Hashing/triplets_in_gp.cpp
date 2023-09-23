@@ -35,6 +35,30 @@ int count_triplets(vector<int> arr,int r){
 
 }
 
+int count_triplets2(vector<int> arr, int r){
+    unordered_map<long, long> left, right;
+    for(long x : arr){
+        left[x] = 0;
+        right[x]++;
+    }
+    int res=0;
+    for(int x : arr){
+        right[x]--;
+        long arth = x/r;
+        long ar = x*r;
+        int lfreq = 0, rfreq = 0;
+        lfreq = left[arth];
+        rfreq = right[ar];
+        
+        res += lfreq*rfreq;
+
+        left[x]++;
+        
+
+    }
+    return res;
+}
+
 int main() {
     
     int n,r;
@@ -45,7 +69,7 @@ int main() {
         cin>>arr[i];
     }
 
-    cout<<count_triplets(arr,r);
+    cout<<count_triplets2(arr,r);
 
     return 0;
 }
